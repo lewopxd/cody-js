@@ -82,6 +82,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.39); /* sombra de 2px a la derecha, 2px abajo, difusa de 10px, color negro con opacidad del 20% */
     z-index: 999;
 }
 
@@ -91,13 +92,6 @@ body {
 
 
 
-
- .console-inner-left{
-   max-width: 15px;
-   min-width: 15px;
-   background-color: rgba(247, 0, 95, 0);
-  
- }
 
 .console-inner-text {
     flex-grow: 1;                      /* Hace que el texto ocupe el espacio disponible */
@@ -122,7 +116,7 @@ body {
 
  
 
-.error-message, .warn-message, .log-message  {
+.error-message, .warn-message, .log-message, .info-message, .cody-message,  .debug-error-message {
     border-radius: 5px;                /* Bordes redondeados */
     padding: 0px;                      /* Espaciado interno */
     margin-bottom: 4px;                /* Separación entre los mensajes */
@@ -132,13 +126,16 @@ body {
     display: flex;                     /* Usamos flexbox para una alineación flexible */
     width: 100%;                       /* Asegura que ocupe el 100% del ancho disponible */
     box-sizing: border-box;            /* Considera el padding en el cálculo del ancho */
+    padding-left: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
    
  }
 
 
 
-.error-message  {
-    background-color: rgba(250, 58, 58, 0.199); /* Rojo transparente */
+.debug-error-message  {
+    background-color: rgba(243, 32, 32, 0.123); /* Rojo transparente */
     border-radius: 5px; /* Bordes redondeados */
     padding-left: 30px;
     padding-top: 4px;
@@ -146,10 +143,28 @@ body {
 
 }
 
-.warn-message {
-    background-color: rgba(250, 221, 58, 0.199); /* Rojo transparente */
+.error-message {
+    background-color: rgba(238, 79, 79, 0.116); /* Rojo transparente */
     border-radius: 5px; /* Bordes redondeados */
      
+
+}
+
+.warn-message {
+    background-color: rgba(250, 221, 58, 0.11); /* Rojo transparente */
+    border-radius: 5px; /* Bordes redondeados */    
+
+}
+
+.info-message {
+    background-color: rgba(0, 49, 61, 0.815); /* Rojo transparente */
+    border-radius: 5px; /* Bordes redondeados */   
+
+}
+
+.cody-message {
+    background-color: rgba(2, 119, 2, 0.459); /* Rojo transparente */
+    border-radius: 5px; /* Bordes redondeados */   
 
 }
 
@@ -225,3 +240,46 @@ body {
     scrollbar-width: thin; /* Grosor de la barra: thin, auto o none */
     scrollbar-color: #555555 #141414;; /* Color del "pulgar" y el fondo */
 }
+
+
+
+
+.console-inner-left{
+    max-width: 29px;
+    min-width: 20px;
+    margin-right: 0px;
+  }
+
+
+.console-leftText {
+    width: 20px; /* Ancho fijo del contenedor */
+    height: auto; /* Alto fijo del contenedor */
+    display: flex; /* Flexbox para centrar */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+     
+     
+   
+    }
+
+
+    .console-leftText  {
+         
+        overflow: hidden; /* Ocultar texto sobrante */
+        white-space: nowrap; /* Evitar saltos de línea */
+        text-overflow: ellipsis; /* Mostrar "..." si hay desbordamiento */
+        font-size: clamp(1px, 9.5px, 100%); /* Ajustar tamaño dinámico */
+         padding-left: 3px;
+         padding-right: 3px;
+          
+         padding-top: 3px;
+         padding-bottom: 3px;
+         border-radius: 6px;
+         color: #fdfdfd94;
+       
+        }
+        .numb{
+            background-color: rgba(0, 0, 0, 0.219);
+        }
+ 
+    

@@ -4,7 +4,8 @@ const mirrorLogInGlobalConsole = false;  //Mostrar logs en la consola global del
 const path = ""; //ruta del archivo
 const file = "script"; //archivo
 const extension = ".js" //extension del archvo
-const autoClean = true; // true: limpia la consola antes de mostrar un nuevo log
+const autoClean = false; // true: limpia la consola antes de mostrar un nuevo log
+
 
 
 
@@ -147,22 +148,30 @@ function runCode() {
 
             // Desplazar el contenedor hacia el final para que siempre se vea el último div
             outputDiv.scrollTop = outputDiv.scrollHeight;
-            //  llamar a la consola del navegador
-            if (mirrorLogInGlobalConsole) {
-                return originalMethod.apply(iframeWindow.console, args);
-            }
+             // Llamar a la consola del navegador
+        if (mirrorLogInGlobalConsole) {
+            // Usar setImmediate o setTimeout para capturar en "tiempo real"
+            
+                originalMethod.apply(iframeWindow.console, args);
+            
+        }
         };
     };
-
-    // Capturar todos los tipos de mensajes de consola sin que se vean en la consola del navegador
+ 
+         // Capturar todos los tipos de mensajes de consola sin que se vean en la consola del navegador
     ['log', 'error', 'warn', 'info'].forEach(captureConsole);
+  
+    
+   
 
     // Escribir el código en el iframe con un script tipo "module" para soportar importaciones ES6
     iframeDoc.write(`
       <script type="module">
-         
+      console.log('Inicia función sincrónica');
+         parent.postMessage('inicia-funcion-sincrona', '*'); // Notificar al principal
           ${code}
-         
+          console.log('Termina función sincrónica');
+         parent.postMessage('termina-funcion-sincrona', '*'); // Notificar al principal
       </script>
     `);
     iframeDoc.close();
