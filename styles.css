@@ -465,7 +465,7 @@ body {
 
 #main-buttons button {
     background: transparent;
-    color: white;
+    color: rgba(207, 207, 207, 0.76);
     border: none;
     font-size: 12px;
     /* Tamaño de fuente ajustado */
