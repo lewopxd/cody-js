@@ -27,6 +27,10 @@ const editor = CodeMirror(document.getElementById('editor'), {
 // Ajustar tamaño explícitamente del editor
 editor.setSize("100%", "100%");
 
+
+ 
+
+
 // Asignar la acción de clic en el botón de ejecución
 document.getElementById('runBtn').addEventListener('click', runCode);
 
@@ -194,6 +198,7 @@ function manageLogs(ev) {
     innerDivRight.className = 'console-inner-right';  // Clase para el estilo
     const link = document.createElement('a');
     link.className = "console-link";
+    gotoLine(link, ev);
 
 
     //setear el link, a ubicacion del log en editor
@@ -372,6 +377,29 @@ window.addEventListener('resize', alignRunBtn);
 
 
 
+///--- funcion para ir a la linea del log en el editor 
+
+function gotoLine(linkElement, ev) {
+    if (!linkElement) {
+        console.error('El enlace no tiene un ID válido.');
+        return;
+    }
+
+    // Agregar un listener de clic
+    linkElement.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const li = (ev.logLocation.line) - 1;
+        const co = ev.logLocation.column;
+        console.log('Se ha hecho clic en ', li + "-- "+ co);
+
+        editor.setCursor({ line: li, ch: co });
+       
+        editor.setSelection({ line: li, ch: 0 }, { line: li, ch: co });  // Resalta una sola columna
+
+        // Aquí puedes agregar cualquier otra lógica para navegar, si es necesario
+    });
+}
 
 
 
@@ -388,8 +416,6 @@ window.addEventListener('resize', alignRunBtn);
 
 
 
-
-
-console.log("#Cody by @lewop");
+console.log("#CodyLeo by @lewop");
 
 
