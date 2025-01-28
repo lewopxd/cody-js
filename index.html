@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Playcode.io</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+</head>
+<body>
+    <div id="container">
+    <!-- Área para editar el código -->
+    <div id="editor"></div>
+     <!-- divisor Vertical -->
+    <div id="divisor-vertical"></div>
+    <!-- Consola para mostrar los resultados -->
+    <div id="console"></div>
+    </div>
+    
+
+    <!-- Botón para ejecutar el código -->
+    <button id="runBtn">Run</button>
+    <iframe src="about:blank" id="sandboxFrame" sandbox="allow-scripts""></iframe>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+    
+    
+    <!-- Modificar la carga del script para usar el módulo -->
+    <script type="module" src="script.js"></script>
+
+
+</body>
+</html>

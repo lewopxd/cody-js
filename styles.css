@@ -1,0 +1,194 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    height: 100vh;
+    background: #000000;
+    padding: 10px;
+}
+
+#sandboxFrame{
+
+    display: none;
+}
+
+#container {
+    display: flex;
+    width: 100%;
+     
+    position: relative;
+    background-color: #21883700;
+    padding-bottom: 10px;
+    height: calc( 100vh );
+  }
+  
+
+#editor {
+    width: 49.95%;
+    height:(100%);
+    
+}
+#divisor-vertical{
+    width: 2px;
+    height: 100%;
+    background-color: #21883700;
+}
+#divisor-vertical {
+    cursor: col-resize; /* Cursor para redimensionar en dirección horizontal */
+  }
+  
+#console {
+    width: 49.95%;
+    height: 100vh;    
+    background: #333333bd;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-family: monospace;
+    box-sizing: border-box;
+    
+   
+}
+
+/* Asegura que el contenedor use todo el alto disponible */
+#editor, #console {
+    height: calc(100% - 20px); /* Resta el padding interno si lo necesitas */
+    box-sizing: border-box; /* Incluye padding y borde en el cálculo del height */
+    overflow: hidden; /* Evita que el contenido se desborde */
+}
+
+/* Ajusta los estilos generales */
+#console {
+    overflow-y: auto; /* Permite el desplazamiento vertical solo cuando sea necesario */
+    overflow-x: hidden; /* Oculta cualquier desplazamiento horizontal */
+    padding: 15px; /* Mantén el padding pero controla su impacto */
+}
+
+ 
+
+#runBtn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+#runBtn:hover {
+    background-color: #218838;
+}
+
+
+.error-message, .warn-message, .log-message  {
+    border-radius: 5px;                /* Bordes redondeados */
+    padding: 0px;                      /* Espaciado interno */
+    margin-bottom: 4px;                /* Separación entre los mensajes */
+    margin-left: 0px;
+    color: white;                      /* Texto blanco */
+    
+    display: flex;                     /* Usamos flexbox para una alineación flexible */
+    width: 100%;                       /* Asegura que ocupe el 100% del ancho disponible */
+    box-sizing: border-box;            /* Considera el padding en el cálculo del ancho */
+ }
+
+ .console-inner-left{
+   max-width: 15px;
+   min-width: 15px;
+   background-color: rgba(247, 0, 95, 0);
+  
+ }
+
+.console-inner-text {
+    flex-grow: 1;                      /* Hace que el texto ocupe el espacio disponible */
+    padding-right: 10px;               /* Espacio a la derecha entre el texto y el indicador */
+    overflow: hidden;                  /* Evita que el texto se desborde */
+                /* Añade puntos suspensivos si el texto se corta */
+    background-color: rgba(79, 24, 180, 0);
+}
+
+.console-inner-right {
+   max-width: 16%;
+   min-width: 10%; 
+    background-color: #00800000;          /* Color de fondo verde */
+    color: white;                     /* Color del texto */
+    text-align: center;                /* Centra el texto dentro del indicador */
+    text-overflow: ellipsis;       /* Muestra los puntos suspensivos */
+    overflow: hidden;              /* Oculta el contenido excedente */
+    white-space: nowrap;           /* Evita el salto de línea */
+    box-sizing: border-box;            /* Considera el padding en el cálculo del ancho */
+}
+
+
+ 
+
+ 
+
+
+
+.error-message  {
+    background-color: rgba(250, 58, 58, 0.199); /* Rojo transparente */
+    border-radius: 5px; /* Bordes redondeados */
+    
+
+}
+
+.warn-message {
+    background-color: rgba(250, 221, 58, 0.199); /* Rojo transparente */
+    border-radius: 5px; /* Bordes redondeados */
+     
+
+}
+
+.log-message {
+    background-color: rgba(0, 0, 0, 0); /* Rojo transparente */
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.253); /* Borde superior blanco */
+    border-radius: 0px;
+     
+
+}
+
+
+/* Estilo inicial del enlace */
+.console-link {
+    color: rgb(112, 176, 219); /* Color inicial */
+    text-decoration: underline; /* Subrayado por defecto */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el enlace */
+}
+
+/* Al pasar el mouse sobre el enlace */
+.console-link:hover {
+    color: rgb(0, 255, 242); /* Azul más oscuro al pasar el mouse */
+    text-decoration: none; /* Opcional, elimina el subrayado */
+}
+
+/* Mientras haces clic */
+.console-link:active {
+    color: rgb(0, 157, 255); /* Cambia a rojo durante el clic */
+    text-decoration: underline;
+}
+
+/* Si el enlace es visitado */
+.console-link:visited {
+    color: rgb(193, 122, 240); /* Cambia a morado si se ha visitado */
+    text-decoration: underline;
+}
+
+
+.CodeMirror {
+    padding-right: 10px; /* Ajusta el margen interno derecho */
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+    padding-top: 10px;
+    font-size: 14px; /* Ajusta el tamaño de la letra */
+    line-height: 1.5; /* Opcional: ajusta el espaciado entre líneas */
+}
