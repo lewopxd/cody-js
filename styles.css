@@ -190,5 +190,5 @@ body {
     box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
     padding-top: 10px;
     font-size: 14px; /* Ajusta el tamaño de la letra */
-    line-height: 1.5; /* Opcional: ajusta el espaciado entre líneas */
+    line-height: 0.5; /* Opcional: ajusta el espaciado entre líneas */
 }
