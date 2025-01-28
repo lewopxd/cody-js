@@ -26,7 +26,11 @@ const editor = CodeMirror(document.getElementById('editor'), {
 
 // Ajustar tamaño explícitamente del editor
 editor.setSize("100%", "100%");
+if(getSavedCode()){
 
+// Cambiar el texto del editor
+editor.setValue(getSavedCode());
+}
 
  
 
@@ -40,6 +44,7 @@ function runCode() {
     const sandBox = iFrame();
     captureLogs(sandBox);  //capturar logs con events
     captureError(sandBox);
+    saveCode();
 }
 
 
@@ -404,10 +409,28 @@ function gotoLine(linkElement, ev) {
 
 
 
+function saveCode(){
+ 
+// Guardar datos en Local Storage
+
+const code = editor.getValue(); // Obtiene el código del editor
+
+localStorage.setItem('code', code);
+
+}
 
 
+function getSavedCode(){
+    // Recuperar datos de Local Storage
+const data = localStorage.getItem('code');
 
+if(data){
+return data;
+}else{
+    return null;
+}
 
+}
 
 
 
