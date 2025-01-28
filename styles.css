@@ -6,6 +6,9 @@ body {
     height: 100vh;
     background: #000000;
     padding: 10px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+
 }
 
 #sandboxFrame{
@@ -15,8 +18,7 @@ body {
 
 #container {
     display: flex;
-    width: 100%;
-     
+    width: 100%;     
     position: relative;
     background-color: #21883700;
     padding-bottom: 10px;
@@ -88,17 +90,7 @@ body {
 }
 
 
-.error-message, .warn-message, .log-message  {
-    border-radius: 5px;                /* Bordes redondeados */
-    padding: 0px;                      /* Espaciado interno */
-    margin-bottom: 4px;                /* Separación entre los mensajes */
-    margin-left: 0px;
-    color: white;                      /* Texto blanco */
-    
-    display: flex;                     /* Usamos flexbox para una alineación flexible */
-    width: 100%;                       /* Asegura que ocupe el 100% del ancho disponible */
-    box-sizing: border-box;            /* Considera el padding en el cálculo del ancho */
- }
+
 
  .console-inner-left{
    max-width: 15px;
@@ -130,14 +122,27 @@ body {
 
  
 
- 
+.error-message, .warn-message, .log-message  {
+    border-radius: 5px;                /* Bordes redondeados */
+    padding: 0px;                      /* Espaciado interno */
+    margin-bottom: 4px;                /* Separación entre los mensajes */
+    margin-left: 0px;
+    color: white;                      /* Texto blanco */
+    
+    display: flex;                     /* Usamos flexbox para una alineación flexible */
+    width: 100%;                       /* Asegura que ocupe el 100% del ancho disponible */
+    box-sizing: border-box;            /* Considera el padding en el cálculo del ancho */
+   
+ }
 
 
 
 .error-message  {
     background-color: rgba(250, 58, 58, 0.199); /* Rojo transparente */
     border-radius: 5px; /* Bordes redondeados */
-    
+    padding-left: 30px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 
 }
 
@@ -190,5 +195,33 @@ body {
     box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
     padding-top: 10px;
     font-size: 14px; /* Ajusta el tamaño de la letra */
-    line-height: 0.5; /* Opcional: ajusta el espaciado entre líneas */
+    line-height: 1.2; /* Opcional: ajusta el espaciado entre líneas */
+    
+}
+
+
+/* Scrollbars en Chrome, Edge y otros basados en WebKit */
+::-webkit-scrollbar {
+    width: 12px; /* Ancho de la barra de desplazamiento vertical */
+    height: 12px; /* Altura de la barra de desplazamiento horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: #141414; /* Color del fondo de la pista */
+    border-radius: 8px; /* Bordes redondeados */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555555; /* Color del "pulgar" de desplazamiento */
+    border-radius: 8px; /* Bordes redondeados del "pulgar" */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #777777; /* Color del "pulgar" al pasar el mouse */
+}
+
+/* Estilo para scrollbars en Firefox */
+* {
+    scrollbar-width: thin; /* Grosor de la barra: thin, auto o none */
+    scrollbar-color: #555555 #141414;; /* Color del "pulgar" y el fondo */
 }
