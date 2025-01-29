@@ -12,7 +12,8 @@ const mergeReplicated = true;  // merge  log messages with from same ubication a
 //useful vars
 let last_Log = { method: "", logLocation: { line: 0, column: 0 }, args: [] };  // localizacion de ultimo mensaje de log
 let replicated = { count: 0, token_id: "", use: true };  // registro de logs duplicados  - used:true variable auxiliar
- 
+let hasCleaned = false;
+
 
 // Configuración de CodeMirror
 const editor = CodeMirror(document.getElementById('editor'), {
@@ -21,26 +22,36 @@ const editor = CodeMirror(document.getElementById('editor'), {
     lineNumbers: true,
     lineWrapping: false,
     height: "100%",
-    value: `// type js\nconsole.log("¡Hola Mundo!");`
+    value: `// @CodyLeo: write js\nconsole.log("¡Hola Mundo!")\nconsole.cody("¡Hello World!");`
 });
 
-// Ajustar tamaño explícitamente del editor
-editor.setSize("100%", "100%");
-if(getSavedCode()){
+//  Antes de que la página se muestre completamente.
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("El DOM está listo pero los recursos (imágenes, CSS) pueden seguir cargando.");
 
-// Cambiar el texto del editor
-editor.setValue(getSavedCode());
-}
+    // Ajustar tamaño explícitamente del editor
+      editor.setSize("100%", "100%");
 
- 
+    if (getSavedCode()) {// rescatar el texto del editor guardado en local storage
+        editor.setValue(getSavedCode());
+    }
+
+    if (getWindowDivisionState()) {    // rescatar el ancho de los contenedores 
+        //setWindowDivision(getWindowDivisionState());
+    }
+
+    setupButtonListeners();
 
 
-// Asignar la acción de clic en el botón de ejecución
-document.getElementById('runBtn').addEventListener('click', runCode);
+});
+
 
 
 //Button run> 
 function runCode() {
+
+    configBar(); // configuracion barra de menu
+
     const sandBox = iFrame();
     captureLogs(sandBox);  //capturar logs con events
     captureError(sandBox);
@@ -50,6 +61,9 @@ function runCode() {
 
 //IFRAME - Crear un iframe para ejecutar el código en un entorno aislado
 function iFrame() {
+
+    iframeCleaner(); // eliminiar del dom todos los iframes
+
     const code = editor.getValue(); // Obtiene el código del editor
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
@@ -102,13 +116,13 @@ function captureLogs(iframeWindow) {
 
             // true = Llamar al método original - imprimir en consola global
             if (mirrorLogInGlobalConsole) {
-                if(method==='cody'){
+                if (method === 'cody') {
                     //originalMethod.log(`[CODY]: ${formatArgs(args)}`);
                     console.log(`[CODY]: ${formatArgs(args)}`);
-                }else{
-                 originalMethod.apply(console, args);
+                } else {
+                    originalMethod.apply(console, args);
                 }
-                
+
             }
 
             // Obtener línea y columna
@@ -161,13 +175,13 @@ function manageLogs(ev) {
         div.className = "warn-message";
     } else if (ev.method === 'error') {
         div.className = "error-message";
-    }else if (ev.method === 'info') {
+    } else if (ev.method === 'info') {
         div.className = "info-message";
     }
     else if (ev.method === 'cody') {
         div.className = "cody-message";
     }
-  
+
 
 
     // [div    [ innerLeft] [innerDivText] [innerRight]    ] 
@@ -211,46 +225,52 @@ function manageLogs(ev) {
 
     link.textContent = `[#${file}${extension}:${li}]`; // Texto del enlace
     innerDivRight.appendChild(link);
-    div.appendChild(innerDivRight); 
+    div.appendChild(innerDivRight);
 
     const outputDiv = document.getElementById('console');  // Consola de salida    
     const lt = leftText;
-    
+
     // what to do with replicated log messages
     if (mergeReplicated) {
         if ((last_Log.logLocation.line === ev.logLocation.line)
             && (last_Log.method === ev.method)
             && (last_Log.logLocation.column === ev.logLocation.column)
             && (formatArgs(last_Log.args) === formatArgs(ev.args))
-            && (replicated.use === true)) {
+            && (replicated.use === true)
+            && (!hasCleaned)) {
 
             replicated.count++;
-                
 
-            lt.textContent = `(${replicated.count})`;   
-            lt.classList.add('numb');        
+
+            lt.textContent = `(${replicated.count})`;
+            lt.classList.add('numb');
 
             const elements = document.querySelectorAll('.console-leftText'); // Selecciona todos los elementos con la clase
             const last_lefText = elements[elements.length - 1]; // Obtén el último elemento
             last_lefText.parentNode.replaceChild(lt, last_lefText);
 
             replicated.token_id = token;
-             
+
 
         } else {
             // autoclean = true ->Limpiar la consola antes de mostrar nuevo log
             if (autoClean) { outputDiv.innerHTML = ''; }
+            hasCleaned = false;
             outputDiv.appendChild(div);
             replicated.count = 0;
-            lt.classList.remove('numb'); 
+            lt.classList.remove('numb');
 
-            if(replicated.count>0){
+            if (replicated.count > 0) {
                 replicated.use = false;
             }
-            
+
+
+
+
         }
         last_Log = ev;
-       // 
+
+        // 
     }
 
 
@@ -309,8 +329,8 @@ function formatArgs(args) {// Procesar los argumentos y formatearlos
 // ------------------[   Divición vertical    ]--------------------------------
 
 const container = document.getElementById('container');
-const editorx = document.getElementById('editor');
-const consoleDiv = document.getElementById('console');
+const editorx = document.getElementById('editor-container');
+const consoleDiv = document.getElementById('console-container');
 const divisor = document.getElementById('divisor-vertical');
 
 let isDragging = false;
@@ -338,14 +358,49 @@ document.addEventListener('mousemove', (e) => {
     const minWidth = 10; // Ancho mínimo para editor y consola
     const maxWidth = containerRect.width - minWidth;
 
+
+
+    // salvar en memoria la posision de ventana
+
     if (offsetX > minWidth && offsetX < maxWidth) {
         const editorWidth = (offsetX / containerRect.width) * 100; // Calcular porcentaje
         const consoleWidth = 100 - editorWidth; // Resto del espacio
 
+
+        saveWindowDivisionState({ editorWidth: editorWidth, consoleWidth: consoleWidth });
         editorx.style.width = `${editorWidth}%`;
         consoleDiv.style.width = `${consoleWidth}%`;
+
+       //editorx.setProperty("width", `${editorWidth}%`, "important");
+       // consoleDiv.setProperty("width", `${consoleWidth}%`, "important");
     }
 });
+
+
+// Guardar en almacenamiento local el ancho de los contenedores principales
+function saveWindowDivisionState(windowDivisionWidth) {
+    localStorage.setItem('windowDivisionWidth', JSON.stringify(windowDivisionWidth));
+
+}
+// Rescatar de almacenamiento local el ancho de los contenedores
+function getWindowDivisionState() {
+    // Recuperar datos de Local Storage
+    const data = JSON.parse(localStorage.getItem('windowDivisionWidth'));
+
+    if (data) {
+        return data;
+    } else {
+        return null;
+    }
+}
+// Reestablecer el ancho de los contenedores 
+function setWindowDivision(windowDivisionWidth) {
+    const editorx = document.getElementById('editor');
+    const consoleDiv = document.getElementById('console-container');
+
+    editorx.style.width = `${windowDivisionWidth.editorWidth}%`;
+    consoleDiv.style.width = `${windowDivisionWidth.consoleWidth}%`;
+}
 
 
 //------ Mover el boton con el divisor
@@ -355,14 +410,12 @@ function alignRunBtn() {
 
     // Calcular el centro del divisor
     const centerX = divisorRect.left + (divisorRect.width / 2);
-    console.log("centro del divisor: "+centerX);
 
     // Obtener el ancho del botón
     const buttonWidth = btnRect.width; // Ancho del botón en píxeles
-    console.log("ancho del boton: "+buttonWidth);
 
     // Calcular el desplazamiento del botón para que su centro esté alineado con el centro del divisor
-    const btnOffsetX = centerX  
+    const btnOffsetX = centerX
 
     // Actualizar la posición del botón
     runBtn.style.position = 'absolute';
@@ -396,47 +449,88 @@ function gotoLine(linkElement, ev) {
 
         const li = (ev.logLocation.line) - 1;
         const co = ev.logLocation.column;
-        console.log('Se ha hecho clic en ', li + "-- "+ co);
+        console.log('Se ha hecho clic en ', li + "-- " + co);
 
         editor.setCursor({ line: li, ch: co });
-       
         editor.setSelection({ line: li, ch: 0 }, { line: li, ch: co });  // Resalta una sola columna
 
-        // Aquí puedes agregar cualquier otra lógica para navegar, si es necesario
+        // agregar cualquier otra lógica para navegar, si es necesario
     });
 }
 
 
-
-
-function saveCode(){
- 
-// Guardar datos en Local Storage
-
-const code = editor.getValue(); // Obtiene el código del editor
-
-localStorage.setItem('code', code);
+//Guardar 5MB de codigo localmente
+function saveCode() {
+    // Guardar datos en Local Storage
+    const code = editor.getValue(); // Obtiene el código del editor
+    localStorage.setItem('code', code);
 
 }
 
-
-function getSavedCode(){
+//oobtenr codigo guardado en local
+function getSavedCode() {
     // Recuperar datos de Local Storage
-const data = localStorage.getItem('code');
+    const data = localStorage.getItem('code');
 
-if(data){
-return data;
-}else{
-    return null;
+    if (data) {
+        return data;
+    } else {
+        return null;
+    }
+
 }
 
+/// eliminar toods los iframes antes de crear uno nuevo
+
+function iframeCleaner() {
+    try {
+        document.querySelectorAll('iframe').forEach(iframe => iframe.remove());
+    } catch {
+
+    }
+
 }
 
 
 
+//-------------------Buttons Listeneres
+function setupButtonListeners() {
+    document.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", function () {
+            const buttonId = this.id;
+
+            switch (buttonId) {
+                case "runBtn":
+                    runCode();
+                    break;
+                case "console-bar-button-trash":
+                    const outputDiv = document.getElementById('console');
+                    outputDiv.innerHTML = "";
+                    replicated.count = 0;
+                    replicated.use = true;
+                    hasCleaned = true;
+                    break;
+                case "btn-edit":
+                    console.log("Editar acción ejecutada");
+                    break;
+                default:
+                    console.log(`Botón con ID "${buttonId}" clickeado`);
+                    break;
+            }
+        });
+    });
+}
+
+// Llamar a la función para activar los listeners
+setupButtonListeners();
 
 
 
+
+//---------------------Window---
+function configBar() {
+    console.log("bar");
+}
 
 
 console.log("#CodyLeo by @lewop");

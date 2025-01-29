@@ -1,6 +1,7 @@
 /* Importar la fuente Fira Code */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
- 
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined');
+
 
 
 body {
@@ -26,19 +27,29 @@ body {
     width: 100%;
     position: relative;
     background-color: #21883700;
-
     height: calc(100vh);
 }
 
-
-#editor {
+#editor-container{
     width: 49.95%;
-    height: (100%);
+    height: 100%;
+    background-color: #28a74600;
+    
+}
+
+.CodeMirror {
+    width: 100%;
+    height: 100%;
+}
+#editor {
+    width: 100%;
+    height: 100%;
 
 }
 
 #divisor-vertical {
-    width: 2px;
+    width: 3px;
+    min-width: 3px;
     height: 100%;
     background-color: #21883700;
 }
@@ -48,29 +59,46 @@ body {
     /* Cursor para redimensionar en dirección horizontal */
 }
 
-#console {
+#console-container {
     width: 49.95%;
     height: 100vh;
-    background: #333333bd;
+    background: #161616;
+    
+     
+
+
+}
+
+#console{
+    display: block;
+   
+    background-color: #01131a00;
+
+    height: calc(100vh - 55px);
+   
     color: white;
-    border-radius: 8px;
+    border-radius: 0px;
     overflow-y: auto;
     overflow-x: hidden;
     font-family: monospace;
     box-sizing: border-box;
-
+    margin-top: 0px;
+    
+    margin-left: 20px;
+    margin-right: 20px;
+    border-top: 1.1px solid rgba(126, 126, 126, 0.363);
+    background-color: #28a74600;
 
 }
 
 /* Asegura que el contenedor use todo el alto disponible */
 #editor,
-#console {
+#console-container {
     height: calc(100%);
     /* Resta el padding interno si lo necesitas */
     box-sizing: border-box;
     /* Incluye padding y borde en el cálculo del height */
-    overflow: hidden;
-    /* Evita que el contenido se desborde */
+     
 }
 
 /* Ajusta los estilos generales */
@@ -79,11 +107,64 @@ body {
     /* Permite el desplazamiento vertical solo cuando sea necesario */
     overflow-x: hidden;
     /* Oculta cualquier desplazamiento horizontal */
-    padding: 15px;
+    
     /* Mantén el padding pero controla su impacto */
+
+    
+}
+
+#console-bar {
+    background-color: #21883700;
+    position: relative;
+    top: 0;
+    width: calc(100% - 40px);
+    height: 20px;
+    display: flex;
+    align-items: center;   
+    justify-content: right; 
+    padding-left: 18px;
+    margin-right: 10px;
+     
+    background-color: #3724e200;
+}
+
+.console-bar-buttons {
+    position: fixed;
+    display: flex; /* Se necesita flexbox */
+    flex-direction: row-reverse;
+    justify-content: flex-end; /* Alinea los elementos a la derecha */
+    gap: 8px; /* Espacio entre los botones */
+    background-color: #e9000000;
+}
+
+.console-bar-buttons button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.336);
+     
+    cursor: pointer;
+    padding: 0px 0px;
+    width: 15px;
+    height: 15px;;
+    background-color: #002e0b00;
+    background-color: #28a74600;
+}
+
+.console-bar-buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.164);
+    color: rgba(182, 182, 182, 0.979);
+    border-radius: 0px;
 }
 
 
+ 
+
+.feather {
+    width: 15px;
+    height: 15px;
+}
+ 
+ 
 
 #runBtn {
     position: fixed;
@@ -120,7 +201,7 @@ body {
 }
 
 .console-inner-right {
-    max-width: 16%;
+    margin-right: 3px; 
     min-width: 10%;
     background-color: #00800000;
     /* Color de fondo verde */
@@ -159,13 +240,16 @@ body {
 
     display: flex;
     /* Usamos flexbox para una alineación flexible */
-    width: 100%;
+    width: calc(100% - 15px);
     /* Asegura que ocupe el 100% del ancho disponible */
     box-sizing: border-box;
     /* Considera el padding en el cálculo del ancho */
     padding-left: 10px;
     padding-top: 4px;
     padding-bottom: 4px;
+    max-width: 70vw;
+    min-width: 10vw;
+     
 
 }
 
@@ -220,7 +304,7 @@ body {
     /* Rojo transparente */
     padding-top: 4px;
     padding-bottom: 4px;
-    border-top: 1px solid rgba(255, 255, 255, 0.253);
+    border-top: 1px solid rgba(255, 255, 255, 0.089);
     /* Borde superior blanco */
     border-radius: 0px;
 
@@ -499,7 +583,7 @@ body {
     border: 1px solid #444;
     border-radius: 4px;
     background-color: #2d2d2d;
-    font-size: 11px;
+    font-size: 12px;
     /* Tamaño de fuente ajustado */
     color: white;
 }

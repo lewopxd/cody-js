@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,17 +8,22 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
+    <script src="preload.js"></script>
 </head>
+
+
+<script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
 <body>
-     
-    
+
+
     <div id="main-bar">
         <div id="main-bar-buttons-container">
             <!-- Branding -->
             <div id="branding">
                 <span>CodyLeo</span>
             </div>
-    
+
             <!-- Main Buttons -->
             <div id="main-buttons">
                 <button>File</button>
@@ -28,12 +34,16 @@
                 <button>Run</button>
                 <button>...</button>
             </div>
-    
+
             <!-- Search Bar -->
             <div id="search-bar">
-                <input type="text" placeholder="Search..." />
+                <!--
+                <input id="search-bar" type="text" placeholder="&#128270; Search">
+-->
+                <input id="search-bar" type="text" placeholder="Search....">
+
             </div>
-    
+
             <!-- Right Buttons -->
             <div id="right-buttons">
                 <button>B1</button>
@@ -43,31 +53,58 @@
             </div>
         </div>
     </div>
-    
-    
+
+
 
 
 
     <div id="container">
-    <!-- Área para editar el código -->
-    <div id="editor"></div>
-     <!-- divisor Vertical -->
-    <div id="divisor-vertical"></div>
-    <!-- Consola para mostrar los resultados -->
-    <div id="console"></div>
+        <!-- Área para editar el código -->
+        <div id="editor-container">
+            <div id="editor"></div>
+        </div>
+        <!-- divisor Vertical -->
+        <div id="divisor-vertical"></div>
+        <!-- Consola para mostrar los resultados -->
+        <div id="console-container">
+            <div id="console-bar">
+                <div class="console-bar-buttons">
+                    <button title="Clean Console" type="button" class="console-bar-button"
+                        id="console-bar-button-trash">
+                        <i data-feather="trash-2"></i>
+                    </button>
+                    <button type="button" class="console-bar-button"></button>
+                    <button type="button" class="console-bar-button"></button>
+                </div>
+            </div>
+            <div id="console"></div>
+        </div>
     </div>
-    
+
 
     <!-- Botón para ejecutar el código -->
-    <button id="runBtn" type="button">▶ Run</button>
-     
+    <button class="main-button" id="runBtn" type="button">
+        ▶ Run
+    </button>
+    <!--   -->
+
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
-    
-    
+
+
+
+
+    <script>
+        feather.replace();
+    </script>
+
+
     <!-- Modificar la carga del script para usar el módulo -->
     <script type="module" src="script2.js"></script>
 
 
 </body>
+
 </html>
